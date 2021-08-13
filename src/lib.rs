@@ -42,6 +42,17 @@ macro_rules! try_log {
     }};
 }
 
+/// Like [`log::error`], but bunt-compatible.
+///
+/// # Example
+/// ```rust
+/// use bunt_logger::error;
+///
+/// # fn main() {
+/// let x = -1;
+/// error!("{$red}Not a positive number:{/$} {[bold]}", x);
+/// # }
+/// ```
 #[macro_export]
 macro_rules! error {
     ($format_str:literal $(, $arg:expr)* $(,)?) => {
@@ -54,6 +65,16 @@ macro_rules! error {
     }
 }
 
+/// Like [`log::warn`], but bunt-compatible.
+///
+/// # Example
+/// ```rust
+/// use bunt_logger::warn;
+///
+/// # fn main() {
+/// warn!("He likes {$yellow}lemons{/$}, like {$blue+italic}a lot{/$}.");
+/// # }
+/// ```
 #[macro_export]
 macro_rules! warn {
     ($format_str:literal $(, $arg:expr)* $(,)?) => {
@@ -66,6 +87,17 @@ macro_rules! warn {
     }
 }
 
+/// Like [`log::info`], but bunt-compatible.
+///
+/// # Example
+/// ```rust
+/// use bunt_logger::info;
+///
+/// # fn main() {
+/// let v = vec![1, 2, 3];
+/// info!("Here is some data: {[green]:?}.", v);
+/// # }
+/// ```
 #[macro_export]
 macro_rules! info {
     ($format_str:literal $(, $arg:expr)* $(,)?) => {
@@ -78,6 +110,17 @@ macro_rules! info {
     }
 }
 
+/// Like [`log::debug`], but bunt-compatible.
+///
+/// # Example
+/// ```rust
+/// use bunt_logger::debug;
+///
+/// # fn main() {
+/// let v = vec![1, 2, 3];
+/// debug!("{$bold}Length: {[cyan]}{/$}.", v.len());
+/// # }
+/// ```
 #[macro_export]
 macro_rules! debug {
     ($format_str:literal $(, $arg:expr)* $(,)?) => {
@@ -90,6 +133,17 @@ macro_rules! debug {
     }
 }
 
+/// Like [`log::trace`], but bunt-compatible.
+///
+/// # Example
+/// ```rust
+/// use bunt_logger::trace;
+///
+/// # fn main() {
+/// let v = vec![1, 2, 3];
+/// trace!("{$italic}Watch the mouse!{/$}.");
+/// # }
+/// ```
 #[macro_export]
 macro_rules! trace {
     ($format_str:literal $(, $arg:expr)* $(,)?) => {
@@ -107,6 +161,18 @@ static LOGPREFS: Lazy<Mutex<LogPrefs>> = Lazy::new(|| {
     Mutex::new(prefs)
 });
 
+/// Returns a reference to the global preferences object, used for modifying preferences.
+///
+/// # Example
+/// ```rust
+/// use bunt_logger::{ColorChoice, Level};
+///
+/// fn main() {
+///     bunt_logger::with()
+///         .level(Level::Debug)
+///         .stdout(ColorChoice::Never);
+/// }
+/// ```
 #[inline]
 pub fn with() -> MutexGuard<'static, LogPrefs> {
     LOGPREFS.lock().unwrap()
@@ -117,6 +183,7 @@ pub fn new() -> LogPrefs {
     LogPrefs::new()
 }
 
+/// Preferences that dictate logging.
 pub struct LogPrefs {
     quiet: bool,
     filter: LevelFilter,
@@ -134,29 +201,83 @@ impl LogPrefs {
         }
     }
 
+    /// Sets whether all output should be silenced, regardless of log level.
+    ///
+    /// # Example
+    /// ```rust
+    /// # fn main() {
+    /// bunt_logger::with().quiet(true);
+    /// # }
+    /// ```
     #[inline]
     pub fn quiet(&mut self, quiet: bool) -> &mut Self {
         self.quiet = quiet;
         self
     }
 
+    /// Sets the log level.
+    ///
+    /// # Example
+    /// ```rust
+    /// use bunt_logger::Level;
+    ///
+    /// # fn main() {
+    /// bunt_logger::with().level(Level::Debug);
+    /// # }
+    /// ```
     #[inline]
     pub fn level(&mut self, level: Level) -> &mut Self {
         self.filter = level.to_level_filter();
         self
     }
 
+    /// Sets the logging target.
+    ///
+    /// By default, `StandardStream::stdout(ColorChoice::Auto)` is used.
+    ///
+    /// # Example
+    /// ```rust
+    /// use bunt_logger::{ColorChoice, StandardStream};
+    ///
+    /// # fn main() {
+    /// let stderr_writer = StandardStream::stderr(ColorChoice::Never);
+    /// bunt_logger::with()
+    ///     .writer(Box::new(stderr_writer));
+    /// # }
+    /// ```
     #[inline]
     pub fn writer(&mut self, writer: Box<dyn WriteColor + Send + Sync>) -> &mut Self {
         self.writer = writer;
         self
     }
 
+    /// Sets the logging target to stdout with the given [`ColorChoice`].
+    ///
+    /// # Example
+    /// ```rust
+    /// use bunt_logger::ColorChoice;
+    ///
+    /// # fn main() {
+    /// bunt_logger::with()
+    ///     .stdout(ColorChoice::Always);
+    /// # }
+    /// ```
     #[inline]
     pub fn stdout(&mut self, color: ColorChoice) -> &mut Self {
         self.writer(Box::new(StandardStream::stdout(color)))
     }
 
+    /// Sets the logging target to stderr with the given [`ColorChoice`].
+    ///
+    /// # Example
+    /// ```rust
+    /// use bunt_logger::ColorChoice;
+    ///
+    /// # fn main() {
+    /// bunt_logger::with()
+    ///     .stderr(ColorChoice::Always);
+    /// # }
+    /// ```
     #[inline]
     pub fn stderr(&mut self, color: ColorChoice) -> &mut Self {
         self.writer(Box::new(StandardStream::stderr(color)))
