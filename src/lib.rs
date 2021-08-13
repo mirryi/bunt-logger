@@ -27,10 +27,7 @@ use std::sync::{Mutex, MutexGuard};
 use log::LevelFilter;
 use once_cell::sync::Lazy;
 
-pub use bunt::{
-    self,
-    termcolor::{ColorChoice, StandardStream, WriteColor},
-};
+pub use bunt::termcolor::{ColorChoice, StandardStream, WriteColor};
 pub use log::Level;
 
 #[doc(hidden)]
@@ -63,7 +60,7 @@ macro_rules! error {
     };
     ([$($format_str:literal),+ $(,)?] $(, $arg:expr)* $(,)?) => {
         $crate::try_log!(Error, writer => {
-            let _ = $crate::bunt::writeln!(writer, [$($format_str),+] $(, $arg )*);
+            let _ = bunt::writeln!(writer, [$($format_str)+] $(, $arg )*);
         })
     }
 }
@@ -85,7 +82,7 @@ macro_rules! warn {
     };
     ([$($format_str:literal),+ $(,)?] $(, $arg:expr)* $(,)?) => {
         $crate::try_log!(Warn, writer => {
-            let _ = $crate::bunt::writeln!(writer, [$($format_str),+] $(, $arg )*);
+            let _ = bunt::writeln!(writer, [$($format_str)+] $(, $arg )*);
         })
     }
 }
@@ -108,7 +105,7 @@ macro_rules! info {
     };
     ([$($format_str:literal),+ $(,)?] $(, $arg:expr)* $(,)?) => {
         $crate::try_log!(Info, writer => {
-            let _ = $crate::bunt::writeln!(writer, [$($format_str),+] $(, $arg )*);
+            let _ = bunt::writeln!(writer, [$($format_str)+] $(, $arg )*);
         })
     }
 }
@@ -131,7 +128,7 @@ macro_rules! debug {
     };
     ([$($format_str:literal),+ $(,)?] $(, $arg:expr)* $(,)?) => {
         $crate::try_log!(Debug, writer => {
-            let _ = $crate::bunt::writeln!(writer, [$($format_str),+] $(, $arg )*);
+            let _ = bunt::writeln!(writer, [$($format_str)+] $(, $arg )*);
         })
     }
 }
@@ -154,7 +151,7 @@ macro_rules! trace {
     };
     ([$($format_str:literal),+ $(,)?] $(, $arg:expr)* $(,)?) => {
         $crate::try_log!(Trace, writer => {
-            let _ = $crate::bunt::writeln!(writer, [$($format_str),+] $(, $arg )*);
+            let _ = bunt::writeln!(writer, [$($format_str)+] $(, $arg )*);
         })
     }
 }
