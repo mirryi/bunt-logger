@@ -178,11 +178,6 @@ pub fn with() -> MutexGuard<'static, LogPrefs> {
     LOGPREFS.lock().unwrap()
 }
 
-#[inline]
-pub fn new() -> LogPrefs {
-    LogPrefs::new()
-}
-
 /// Preferences that dictate logging.
 pub struct LogPrefs {
     quiet: bool,
@@ -193,7 +188,7 @@ pub struct LogPrefs {
 
 impl LogPrefs {
     #[inline]
-    pub fn new() -> Self {
+    fn new() -> Self {
         Self {
             quiet: false,
             filter: LevelFilter::Info,
