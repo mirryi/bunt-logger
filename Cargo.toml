@@ -1,7 +1,19 @@
 [package]
 name = "bunt-logger"
 version = "0.1.0"
+authors = ["Eric Zhao <21zhaoe@protonmail.com>"]
 edition = "2018"
+
+description = """
+Convenient log macro wrappers around `bunt`.
+"""
+documentation = "https://docs.rs/bunt-logger/"
+readme = "README.md"
+license = "MIT/Apache-2.0"
+
+keywords = ["color", "term", "terminal", "format", "style"]
+categories = ["command-line-interface"]
+exclude = [".github"]
 
 [dependencies]
 bunt = "0.2"
