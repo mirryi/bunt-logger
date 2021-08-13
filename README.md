@@ -4,12 +4,12 @@
 [![Crates.io](https://img.shields.io/crates/v/bunt-logger.svg)](https://crates.io/crates/bunt-logger)
 [![Docs.rs](https://docs.rs/bunt-logger/badge.svg)](https://docs.rs/bunt-logger)
 
-`bunt-logger` is a convenience wrapper around [`bunt`](https://github.com/LukasKalbertodt/bunt), a
+bunt-logger is a convenience wrapper around [bunt](https://github.com/LukasKalbertodt/bunt), a
 library for printing colored and formatted text to terminals. It provides logging macros resembling
-those of [`log`](https://github.com/rust-lang/log) and a configuration interface similar to
-[`stderrlog`](https://github.com/cardoe/stderrlog-rs).
+those of [log](https://github.com/rust-lang/log) and a configuration interface similar to
+[stderrlog](https://github.com/cardoe/stderrlog-rs).
 
-**`bunt-logger` provides similar-looking macros but is not a logging implementation for `log`!**
+**This crate provides similar-looking macros but is not a logging implementation for `log`!**
 
 ```rust
 use bunt_logger::{error, debug, ColorChoice, Level};
