@@ -1,6 +1,6 @@
 # bunt-logger
 
-[![Build status](https://github.com/Dophin2009/bunt-logger/workflows/ci/badge.svg)](https://github.com/Dophin2009/bunt-logger/actions)
+[![Build status](https://github.com/mirryi/bunt-logger/workflows/ci/badge.svg)](https://github.com/mirryi/bunt-logger/actions)
 [![Crates.io](https://img.shields.io/crates/v/bunt-logger.svg)](https://crates.io/crates/bunt-logger)
 [![Docs.rs](https://docs.rs/bunt-logger/badge.svg)](https://docs.rs/bunt-logger)
 
